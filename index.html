@@ -1,14 +1,21 @@
 <!DOCTYPE html>
+
 <html lang="ta">
+
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP GOLD V7 - Register</title>
+
+<title>TMNP GOLD V7 - Membership Registration</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script type="module" src="app.js"></script>
 
 </head>
 
@@ -18,93 +25,89 @@
 
 <div class="container">
 
-<!-- FORM -->
+```
+<!-- REGISTRATION FORM -->
+
 <div class="form-box">
 
-<input id="name" placeholder="Name">
-<input id="phone" placeholder="Phone">
-<input id="voterid" placeholder="Voter ID">
-<input id="email" placeholder="Email">
-<input id="district" placeholder="District">
-<input type="file" id="photo">
+    <input
+        type="text"
+        id="name"
+        placeholder="Full Name"
+    >
 
-<button onclick="saveMember()">Submit</button>
+    <input
+        type="text"
+        id="phone"
+        placeholder="Phone Number"
+    >
+
+    <input
+        type="text"
+        id="voterid"
+        placeholder="Voter ID"
+    >
+
+    <input
+        type="email"
+        id="email"
+        placeholder="Email Address"
+    >
+
+    <input
+        type="text"
+        id="district"
+        placeholder="District"
+    >
+
+    <input
+        type="text"
+        id="address"
+        placeholder="Address"
+    >
+
+    <input
+        type="file"
+        id="photo"
+        accept="image/*"
+    >
+
+    <button onclick="saveMember()">
+        Submit Membership
+    </button>
 
 </div>
 
 <!-- CARD PREVIEW -->
+
 <div class="card-box">
 
-<div id="cardPreview">No Member Yet</div>
+    <div id="cardPreview">
+
+        <div class="card">
+
+            <div class="card-header">
+                TMNP GOLD MEMBERSHIP CARD
+            </div>
+
+            <div class="card-body">
+
+                <p>
+                    Fill the form and click
+                    Submit Membership
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
 </div>
+```
 
 </div>
-
-<script type="module">
-import { db } from "./firebase-config.js";
-import { collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
-window.saveMember = async function(){
-
-let name = document.getElementById("name").value;
-let phone = document.getElementById("phone").value;
-
-if(!name || !phone){
-alert("Name & Phone required");
-return;
-}
-
-let member = {
-name,
-phone,
-voterid: document.getElementById("voterid").value,
-email: document.getElementById("email").value,
-district: document.getElementById("district").value,
-timestamp: new Date().toISOString()
-};
-
-try {
-const docRef = await addDoc(collection(db, "members"), member);
-
-renderCard(member, docRef.id);
-
-alert("Saved to Firebase ✅");
-
-} catch(e){
-alert("Error saving: " + e);
-}
-
-}
-
-function renderCard(m, id){
-
-document.getElementById("cardPreview").innerHTML = `
-<div class="card" id="card">
-
-<h3>TMNP GOLD CARD</h3>
-
-<div><b>ID:</b> ${id}</div>
-<div><b>Name:</b> ${m.name}</div>
-<div><b>Phone:</b> ${m.phone}</div>
-<div><b>District:</b> ${m.district}</div>
-
-<div id="qr"></div>
-
-</div>
-`;
-
-setTimeout(()=>{
-new QRCode(document.getElementById("qr"), {
-text: id,
-width: 100,
-height: 100
-});
-},100);
-
-}
-
-</script>
 
 </body>
+
 </html>
