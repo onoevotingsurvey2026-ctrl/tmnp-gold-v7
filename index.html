@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="ta">
+
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>TMNP GOLD MEMBERSHIP SYSTEM</title>
 
 <link rel="stylesheet" href="style.css">
 
+<!-- QR + PDF -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -17,11 +20,30 @@
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <div class="header">
-TMNP GOLD MEMBERSHIP SYSTEM | PERMANENT CARD
+
+<h2>TMNP GOLD MEMBERSHIP SYSTEM</h2>
+
+<div>Tamil Nadu Makkal Nalvazhvu Periyakkam</div>
+<div>தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்</div>
+
+<hr>
+
+<div style="font-weight:bold;">
+நேர்மை – நலம் – நம்பிக்கை | மக்களுக்காக – மக்களால்
 </div>
 
+<div style="color:blue;font-weight:bold;">
+🌐 Live:
+<marquee behavior="alternate">
+https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/
+</marquee>
+</div>
+
+</div>
+
+<!-- ================= MAIN CONTAINER ================= -->
 <div class="container">
 
 <!-- LEFT FORM -->
@@ -34,10 +56,9 @@ TMNP GOLD MEMBERSHIP SYSTEM | PERMANENT CARD
 <input id="voterid" placeholder="Voter ID">
 <input id="email" placeholder="Gmail ID">
 <input id="district" placeholder="District">
-
 <textarea id="address" placeholder="Full Address"></textarea>
 
-<input type="file" id="photo" accept="image/*">
+<input type="file" id="photo">
 
 <button class="btn-gold" onclick="saveMember()">
 Submit Membership
@@ -56,16 +77,35 @@ Share WhatsApp
 <!-- RIGHT CARD -->
 <div class="right-panel">
 
-<div id="cardPreview"></div>
-
+<div id="cardPreview">
+<p>Fill form and click Submit</p>
 </div>
 
 </div>
 
-<!-- FOOTER -->
+</div>
+
+<!-- ================= FOOTER ================= -->
 <div class="header">
-N. RAMAN | President / General Secretary |
-ECI Reg No: 56/219/2018-2021/PPS-I | 05.03.2021
+
+<div><b>N. RAMAN</b> | President / General Secretary</div>
+
+<div style="font-size:12px;">
+🏢 Head Quarter: Tamil Nadu Makkal Nalvazhvu Periyakkam  
+📧 tmnpmembership@gmail.com  
+📍 Thiruninravur, Thiruvallur District
+</div>
+
+<div style="font-size:12px;">
+🗳️ இந்திய தேர்தல் ஆணையத்தில் பதிவு பெற்ற அரசியல் இயக்கம்  
+📌 பதிவு எண் : 56/219/2018-2021/PPS-I  
+📅 பதிவு நாள் : 05.03.2021
+</div>
+
+<div style="font-weight:bold;color:green;">
+ஒன்றிணைவோம்! உரிமை காப்போம்! நல்லாட்சி மலரட்டும்!
+</div>
+
 </div>
 
 </body>
