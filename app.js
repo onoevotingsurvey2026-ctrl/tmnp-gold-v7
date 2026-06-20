@@ -49,8 +49,11 @@ const memberId = "TMNP-" + Date.now();
 const photoFile =
   document.getElementById("photo").files[0];
 
-const photoURL = "";
-const member = {
+const photoURL =
+  await uploadPhoto(
+    photoFile,
+    memberId
+  );const member = {
   memberId,
   name,
   phone,
