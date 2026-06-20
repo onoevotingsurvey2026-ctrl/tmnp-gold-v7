@@ -1,0 +1,15 @@
+async function uploadPhoto(file, memberId) {
+
+if (!file) return "";
+
+const storageRef = ref(
+storage,
+`members/${memberId}/${file.name}`
+);
+
+await uploadBytes(storageRef, file);
+
+const photoURL = await getDownloadURL(storageRef);
+
+return photoURL;
+}
