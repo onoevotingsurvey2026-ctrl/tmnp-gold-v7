@@ -12,12 +12,36 @@ uploadBytes,
 getDownloadURL
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-storage.js";
 
+/* PHOTO UPLOAD FUNCTION */
+async function uploadPhoto(file, memberId) {
+
+```
+if (!file) return "";
+
+const storageRef = ref(
+    storage,
+    `members/${memberId}/${file.name}`
+);
+
+await uploadBytes(storageRef, file);
+
+const photoURL =
+await getDownloadURL(storageRef);
+
+return photoURL;
+```
+
+}
+
 /* SAVE MEMBER */
 window.saveMember = async function () {
 
 ```
-const name = document.getElementById("name").value.trim();
-const phone = document.getElementById("phone").value.trim();
+const name =
+document.getElementById("name").value.trim();
+
+const phone =
+document.getElementById("phone").value.trim();
 
 if (!name || !phone) {
     alert("Name and Phone are required");
@@ -26,45 +50,35 @@ if (!name || !phone) {
 
 try {
 
-    const memberId = "TMNP-" + Date.now();
-
-    let photoURL = "";
+    const memberId =
+    "TMNP-" + Date.now();
 
     const photoFile =
     document.getElementById("photo").files[0];
 
-    /* PHOTO UPLOAD */
-    if (photoFile) {
+    const photoURL =
+    await uploadPhoto(
+        photoFile,
+        memberId
+    );
 
-        const storageRef = ref(
-            storage,
-            `members/${memberId}/${photoFile.name}`
-        );
-
-        await uploadBytes(
-            storageRef,
-            photoFile
-        );
-
-        photoURL =
-        await getDownloadURL(storageRef);
-    }
-
-    /* MEMBER OBJECT */
     const member = {
         memberId: memberId,
         name: name,
         phone: phone,
-        voterid: document.getElementById("voterid").value.trim(),
-        address: document.getElementById("address").value.trim(),
-        email: document.getElementById("email").value.trim(),
-        district: document.getElementById("district").value.trim(),
+        voterid:
+        document.getElementById("voterid").value.trim(),
+        address:
+        document.getElementById("address").value.trim(),
+        email:
+        document.getElementById("email").value.trim(),
+        district:
+        document.getElementById("district").value.trim(),
         photoURL: photoURL,
         status: "Active",
         createdAt: serverTimestamp()
     };
 
-    /* SAVE TO FIRESTORE */
     const docRef = await addDoc(
         collection(db, "members"),
         member
@@ -174,7 +188,7 @@ setTimeout(() => {
 
 };
 
-/* RESET */
+/* RESET FORM */
 window.resetForm = function () {
 
 ```
