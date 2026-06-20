@@ -1,1 +1,147 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMNP ADMIN V7</title>
 
+<link rel="stylesheet" href="style.css">
+
+<script type="module">
+
+import { auth, db } from "./firebase-config.js";
+import {
+signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-auth.js";
+
+import {
+collection,
+getDocs,
+deleteDoc,
+doc
+} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+
+/* LOGIN */
+window.login = async function(){
+
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+try{
+await signInWithEmailAndPassword(auth, email, password);
+
+document.getElementById("loginBox").style.display="none";
+document.getElementById("dashboard").style.display="block";
+
+loadMembers();
+
+}catch(e){
+alert("Login Failed: " + e.message);
+}
+}
+
+/* LOAD MEMBERS */
+window.loadMembers = async function(){
+
+let snap = await getDocs(collection(db,"members"));
+
+let html = "";
+
+snap.forEach((docu)=>{
+let d = docu.data();
+
+html += `
+<div class="member-card">
+
+<p><b>ID:</b> ${docu.id}</p>
+<p><b>Name:</b> ${d.name}</p>
+<p><b>Phone:</b> ${d.phone}</p>
+<p><b>District:</b> ${d.district}</p>
+
+<button onclick="deleteMember('${docu.id}')">Delete</button>
+
+</div>
+`;
+});
+
+document.getElementById("memberList").innerHTML = html;
+}
+
+/* DELETE */
+window.deleteMember = async function(id){
+
+if(confirm("Delete this member?")){
+
+await deleteDoc(doc(db,"members",id));
+
+alert("Deleted");
+loadMembers();
+
+}
+
+}
+
+/* SEARCH */
+window.searchMember = async function(){
+
+let key = document.getElementById("search").value.toLowerCase();
+
+let snap = await getDocs(collection(db,"members"));
+
+let html = "";
+
+snap.forEach((docu)=>{
+let d = docu.data();
+
+if(d.name.toLowerCase().includes(key) || d.phone.includes(key)){
+
+html += `
+<div class="member-card">
+<p><b>ID:</b> ${docu.id}</p>
+<p><b>Name:</b> ${d.name}</p>
+<p><b>Phone:</b> ${d.phone}</p>
+<p><b>District:</b> ${d.district}</p>
+<button onclick="deleteMember('${docu.id}')">Delete</button>
+</div>
+`;
+}
+
+});
+
+document.getElementById("memberList").innerHTML = html;
+
+}
+
+</script>
+
+</head>
+
+<body>
+
+<h2>TMNP ADMIN DASHBOARD</h2>
+
+<!-- LOGIN -->
+<div id="loginBox">
+
+<input id="email" placeholder="Admin Email">
+<input id="password" type="password" placeholder="Password">
+
+<button onclick="login()">Login</button>
+
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard" style="display:none;">
+
+<h3>Member Dashboard</h3>
+
+<input id="search" placeholder="Search name or phone">
+<button onclick="searchMember()">Search</button>
+<button onclick="loadMembers()">Refresh</button>
+
+<div id="memberList"></div>
+
+</div>
+
+</body>
+</html>
