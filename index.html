@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>TMNP GOLD SYSTEM</title>
+<title>TMNP GOLD MEMBERSHIP SYSTEM</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -27,25 +27,23 @@
 <div>தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்</div>
 
 <div style="margin-top:10px;font-weight:bold;">
-நேர்மை – நலம் – நம்பிக்கை<br>
-மக்களுக்காக – மக்களால்
+நேர்மை – நலம் – நம்பிக்கை | மக்களுக்காக – மக்களால்
 </div>
 
-<!-- WEBSITE RUNNING STATUS -->
-<div style="color:green;font-weight:bold;margin-top:10px;">
-🟢 Website Live Running
+<div style="color:green;margin-top:8px;">
+🟢 LIVE WEBSITE
 </div>
 
 <div style="color:blue;">
-🌐 https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/
+https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/
 </div>
 
 </div>
 
-<!-- MAIN -->
+<!-- DASHBOARD -->
 <div class="container">
 
-<!-- FORM -->
+<!-- LEFT FORM -->
 <div class="left-panel">
 
 <h3>Registration Form</h3>
@@ -56,9 +54,17 @@
 <input id="email" placeholder="Gmail ID">
 <input id="district" placeholder="District">
 
-<!-- ADDRESS BOX INCREASED -->
 <textarea id="address" placeholder="Full Address"
-style="height:120px;"></textarea>
+style="height:130px;"></textarea>
+
+<!-- LOCATION -->
+<input type="hidden" id="location">
+
+<button class="btn-blue" onclick="getLocation()">
+📍 Get Location
+</button>
+
+<div id="locationStatus" style="font-size:12px;color:green;"></div>
 
 <input type="file" id="photo">
 
@@ -76,7 +82,7 @@ Share WhatsApp
 
 </div>
 
-<!-- CARD -->
+<!-- RIGHT CARD -->
 <div class="right-panel">
 
 <div id="cardPreview">
@@ -97,21 +103,14 @@ N. RAMAN | President / General Secretary
 <hr>
 
 <div>
-📧 Gmail ID: tmnpmembership@gmail.com<br>
-📱 Mobile No: +91 8939324309
+📧 tmnpmembership@gmail.com | 📱 +91 8939324309
 </div>
-
-<br>
 
 <div>
-🏢 Head Quarter Address:<br>
-No.9, 1st Floor, 2nd Cross Street,<br>
+🏢 No.9, 1st Floor, 2nd Cross Street,<br>
 Gomathipuram, Thiruninravur,<br>
-Pincode: 602024,<br>
 Thiruvallur District, Tamil Nadu, India
 </div>
-
-<br>
 
 <div style="color:green;font-weight:bold;">
 ஒன்றிணைவோம்! உரிமை காப்போம்! நல்லாட்சி மலரட்டும்!
