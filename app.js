@@ -1,3 +1,5 @@
+console.log("APP JS LOADED");
+console.log("SAVE BUTTON CLICKED");
 import { db } from "./firebase-config.js";
 
 import {
