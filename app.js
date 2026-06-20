@@ -1,134 +1,170 @@
 import { db } from "./firebase-config.js";
 
 import {
-  collection,
-  addDoc,
-  serverTimestamp
+collection,
+addDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
 
-console.log("APP JS LOADED");
+/* ================= LOCATION ================= */
 
-/* SAVE MEMBER */
+window.getLocation = function () {
+
+if (!navigator.geolocation) {
+alert("Location not supported");
+return;
+}
+
+navigator.geolocation.getCurrentPosition((pos) => {
+
+const lat = pos.coords.latitude;
+const lon = pos.coords.longitude;
+
+document.getElementById("location").value = lat + "," + lon;
+
+document.getElementById("locationStatus").innerText =
+"Location Captured ✔";
+
+});
+
+};
+
+/* ================= SAVE MEMBER ================= */
 
 window.saveMember = async function () {
 
-  console.log("SAVE BUTTON CLICKED");
+const name = document.getElementById("name").value.trim();
+const phone = document.getElementById("phone").value.trim();
 
-  const name = document.getElementById("name").value.trim();
-  const phone = document.getElementById("phone").value.trim();
+if (!name || !phone) {
+alert("Name & Phone required");
+return;
+}
 
-  if (!name || !phone) {
-    alert("Name and Phone are required");
-    return;
-  }
+try {
 
-  try {
+const memberId = "TMNP-" + Date.now();
 
-    const memberId = "TMNP-" + Date.now();
-
-    const member = {
-      memberId: memberId,
-      name: name,
-      phone: phone,
-      voterid: document.getElementById("voterid").value.trim(),
-      email: document.getElementById("email").value.trim(),
-      district: document.getElementById("district").value.trim(),
-      address: document.getElementById("address").value.trim(),
-      photoURL: "",
-      status: "Active",
-      createdAt: serverTimestamp()
-    };
-
-    console.log("Saving Member:", member);
-
-    const docRef = await addDoc(
-      collection(db, "members"),
-      member
-    );
-
-    console.log("Saved Document ID:", docRef.id);
-
-    renderCard(member, docRef.id);
-
-    alert("Member Saved Successfully ✅");
-
-    resetForm();
-
-  } catch (error) {
-
-    console.error("Firestore Error:", error);
-
-    alert(
-      "Firebase Save Failed ❌\n\n" +
-      error.message
-    );
-  }
+const member = {
+memberId,
+name,
+phone,
+voterid: document.getElementById("voterid").value.trim(),
+email: document.getElementById("email").value.trim(),
+district: document.getElementById("district").value.trim(),
+address: document.getElementById("address").value.trim(),
+location: document.getElementById("location").value,
+photoURL: "",
+status: "Active",
+createdAt: serverTimestamp()
 };
 
+const docRef = await addDoc(
+collection(db, "members"),
+member
+);
 
-/* CARD PREVIEW */
+renderCard(member, docRef.id);
 
-window.renderCard = function (
-  member,
-  firestoreId
-) {
+alert("Member Saved Successfully ✔");
 
-  const card = `
-  <div class="card">
+resetForm();
 
-    <div class="card-header">
-      TMNP GOLD MEMBERSHIP CARD
-    </div>
+} catch (err) {
+alert("Firebase Error: " + err.message);
+console.error(err);
+}
 
-    <div class="card-body">
-
-      <div><b>ID:</b> ${member.memberId}</div>
-
-      <div><b>Name:</b> ${member.name}</div>
-
-      <div><b>Phone:</b> ${member.phone}</div>
-
-      <div><b>Voter ID:</b> ${member.voterid}</div>
-
-      <div><b>District:</b> ${member.district}</div>
-
-      <div id="qr"></div>
-
-    </div>
-
-  </div>
-  `;
-
-  document.getElementById("cardPreview").innerHTML = card;
-
-  setTimeout(() => {
-
-    const qr = document.getElementById("qr");
-
-    if (qr) {
-
-      qr.innerHTML = "";
-
-      new QRCode(qr, {
-        text: firestoreId,
-        width: 100,
-        height: 100
-      });
-    }
-
-  }, 100);
 };
 
+/* ================= CARD ================= */
 
-/* RESET FORM */
+window.renderCard = function(member, id) {
+
+const card = `
+<div class="card" style="width:450px;padding:15px;">
+
+<div class="card-header">
+TMNP GOLD MEMBERSHIP CARD
+</div>
+
+<div class="card-body">
+
+<div><b>ID:</b> ${member.memberId}</div>
+<div><b>Name:</b> ${member.name}</div>
+<div><b>Phone:</b> ${member.phone}</div>
+<div><b>Voter ID:</b> ${member.voterid}</div>
+<div><b>Email:</b> ${member.email}</div>
+<div><b>District:</b> ${member.district}</div>
+<div><b>Address:</b> ${member.address}</div>
+<div><b>Location:</b> ${member.location || "Not Captured"}</div>
+
+<div id="qr"></div>
+
+</div>
+</div>
+`;
+
+document.getElementById("cardPreview").innerHTML = card;
+
+setTimeout(() => {
+
+const qr = document.getElementById("qr");
+qr.innerHTML = "";
+
+new QRCode(qr, {
+text: window.location.href + "?id=" + id,
+width: 120,
+height: 120
+});
+
+}, 100);
+
+};
+
+/* ================= PDF ================= */
+
+window.downloadPDF = async function () {
+
+const card = document.getElementById("cardPreview");
+
+const canvas = await html2canvas(card);
+const img = canvas.toDataURL("image/png");
+
+const { jsPDF } = window.jspdf;
+const pdf = new jsPDF("p","mm","a4");
+
+pdf.addImage(img,"PNG",10,10,190,0);
+pdf.save("TMNP-Membership.pdf");
+
+};
+
+/* ================= WHATSAPP ================= */
+
+window.shareWhatsApp = function () {
+
+const text = "TMNP GOLD MEMBERSHIP CARD";
+const url = window.location.href;
+
+window.open(
+"https://wa.me/?text=" +
+encodeURIComponent(text + " " + url)
+);
+
+};
+
+/* ================= RESET ================= */
 
 window.resetForm = function () {
 
-  document.getElementById("name").value = "";
-  document.getElementById("phone").value = "";
-  document.getElementById("voterid").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("district").value = "";
-  document.getElementById("address").value = "";
-  document.getElementById("photo").value = "";
+document.getElementById("name").value = "";
+document.getElementById("phone").value = "";
+document.getElementById("voterid").value = "";
+document.getElementById("email").value = "";
+document.getElementById("district").value = "";
+document.getElementById("address").value = "";
+document.getElementById("photo").value = "";
+document.getElementById("location").value = "";
+document.getElementById("locationStatus").innerText = "";
+
 };
