@@ -1,115 +1,84 @@
 <!DOCTYPE html>
-
 <html lang="ta">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>TMNP GOLD V7 - Membership Registration</title>
+<title>TMNP GOLD SYSTEM V7</title>
 
 <link rel="stylesheet" href="style.css">
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<script type="module" src="./app.js"></script>
-
+<script type="module" src="app.js"></script>
 </head>
 
 <body>
 
-<h2>TMNP GOLD MEMBERSHIP REGISTRATION</h2>
+<!-- HEADER -->
+<div class="header">
+  TMNP GOLD MEMBERSHIP SYSTEM
+</div>
 
+<!-- MAIN -->
 <div class="container">
 
-<div class="form-box">
+  <!-- LEFT FORM -->
+  <div class="left-panel">
 
-<input
-type="text"
-id="name"
-placeholder="Full Name"
-required
+    <input id="name" placeholder="Name">
+    <input id="phone" placeholder="Phone">
+    <input id="voterid" placeholder="Voter ID">
+    <input id="email" placeholder="Email">
+    <input id="district" placeholder="District">
+    <input id="address" placeholder="Address">
+    <input type="file" id="photo">
 
->
+    <!-- ACTION BUTTONS -->
+    <button class="btn-gold" onclick="saveMember()">
+      Submit Membership
+    </button>
 
-<input
-type="text"
-id="phone"
-placeholder="Phone Number"
-required
+    <button class="btn-blue" onclick="toggleDashboard()">
+      Open Dashboard
+    </button>
 
->
+    <button class="btn-green" onclick="downloadPDF()">
+      Download PDF
+    </button>
 
-<input
-type="text"
-id="voterid"
-placeholder="Voter ID"
+    <button class="btn-blue" onclick="shareWhatsApp()">
+      Share WhatsApp
+    </button>
 
->
+  </div>
 
-<input
-type="email"
-id="email"
-placeholder="Email Address"
+  <!-- RIGHT CARD -->
+  <div class="right-panel">
 
->
+    <div id="cardPreview">
+      <p>Fill form & submit</p>
+    </div>
 
-<input
-type="text"
-id="district"
-placeholder="District"
-
->
-
-<input
-type="text"
-id="address"
-placeholder="Address"
-
->
-
-<input
-type="file"
-id="photo"
-accept="image/*"
-
->
-
-<button id="submitBtn" onclick="saveMember()">
-Submit Membership
-</button>
+  </div>
 
 </div>
 
-<div class="card-box">
+<!-- DASHBOARD (HIDDEN INITIALLY) -->
+<div id="dashboard" style="display:none;" class="right-panel">
 
-<div id="cardPreview">
+  <h3>MEMBERS DASHBOARD</h3>
 
-<div class="card">
+  <input id="search" placeholder="Search members">
 
-<div class="card-header">
-TMNP GOLD MEMBERSHIP CARD
-</div>
-
-<div class="card-body">
-
-<p>
-Fill the form and click Submit Membership
-</p>
+  <div id="memberList"></div>
 
 </div>
 
-</div>
-
-</div>
-
-</div>
-
+<!-- FOOTER -->
+<div class="header">
+  N. RAMAN | President / General Secretary | TMNP
 </div>
 
 </body>
-
 </html>
