@@ -15,7 +15,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
-<script type="module" src="app.js"></script>
+<script type="module" src="./app.js"></script>
 
 </head>
 
@@ -25,86 +25,88 @@
 
 <div class="container">
 
-```
-<!-- REGISTRATION FORM -->
-
 <div class="form-box">
 
-    <input
-        type="text"
-        id="name"
-        placeholder="Full Name"
-    >
+<input
+type="text"
+id="name"
+placeholder="Full Name"
+required
 
-    <input
-        type="text"
-        id="phone"
-        placeholder="Phone Number"
-    >
+>
 
-    <input
-        type="text"
-        id="voterid"
-        placeholder="Voter ID"
-    >
+<input
+type="text"
+id="phone"
+placeholder="Phone Number"
+required
 
-    <input
-        type="email"
-        id="email"
-        placeholder="Email Address"
-    >
+>
 
-    <input
-        type="text"
-        id="district"
-        placeholder="District"
-    >
+<input
+type="text"
+id="voterid"
+placeholder="Voter ID"
 
-    <input
-        type="text"
-        id="address"
-        placeholder="Address"
-    >
+>
 
-    <input
-        type="file"
-        id="photo"
-        accept="image/*"
-    >
+<input
+type="email"
+id="email"
+placeholder="Email Address"
 
-    <button onclick="saveMember()">
-        Submit Membership
-    </button>
+>
+
+<input
+type="text"
+id="district"
+placeholder="District"
+
+>
+
+<input
+type="text"
+id="address"
+placeholder="Address"
+
+>
+
+<input
+type="file"
+id="photo"
+accept="image/*"
+
+>
+
+<button id="submitBtn" onclick="saveMember()">
+Submit Membership
+</button>
 
 </div>
-
-<!-- CARD PREVIEW -->
 
 <div class="card-box">
 
-    <div id="cardPreview">
+<div id="cardPreview">
 
-        <div class="card">
+<div class="card">
 
-            <div class="card-header">
-                TMNP GOLD MEMBERSHIP CARD
-            </div>
+<div class="card-header">
+TMNP GOLD MEMBERSHIP CARD
+</div>
 
-            <div class="card-body">
+<div class="card-body">
 
-                <p>
-                    Fill the form and click
-                    Submit Membership
-                </p>
-
-            </div>
-
-        </div>
-
-    </div>
+<p>
+Fill the form and click Submit Membership
+</p>
 
 </div>
-```
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
