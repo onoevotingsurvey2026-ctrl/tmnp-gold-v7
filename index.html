@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="ta">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP GOLD SYSTEM V7</title>
+
+<title>TMNP GOLD V7</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -11,73 +13,63 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script type="module" src="app.js"></script>
+
 </head>
 
 <body>
 
-<!-- HEADER -->
+<!-- ================= HEADER ================= -->
 <div class="header">
-  TMNP GOLD MEMBERSHIP SYSTEM
+  TMNP GOLD MEMBERSHIP SYSTEM<br>
+  <small>Permanent Membership Card System</small>
 </div>
 
-<!-- MAIN -->
+<!-- ================= MAIN ================= -->
 <div class="container">
 
-  <!-- LEFT FORM -->
+  <!-- FORM -->
   <div class="left-panel">
 
-    <input id="name" placeholder="Name">
-    <input id="phone" placeholder="Phone">
+    <h3>Registration Form</h3>
+
+    <input id="name" placeholder="Full Name">
+    <input id="phone" placeholder="Phone Number">
     <input id="voterid" placeholder="Voter ID">
-    <input id="email" placeholder="Email">
+    <input id="email" placeholder="Gmail ID">
     <input id="district" placeholder="District">
-    <input id="address" placeholder="Address">
+    <input id="address" placeholder="Full Address">
     <input type="file" id="photo">
 
-    <!-- ACTION BUTTONS -->
+    <!-- ACTION BUTTONS (OUTSIDE CARD ONLY) -->
     <button class="btn-gold" onclick="saveMember()">
       Submit Membership
     </button>
 
-    <button class="btn-blue" onclick="toggleDashboard()">
-      Open Dashboard
-    </button>
-
-    <button class="btn-green" onclick="downloadPDF()">
+    <button class="btn-blue" onclick="downloadPDF()">
       Download PDF
     </button>
 
-    <button class="btn-blue" onclick="shareWhatsApp()">
+    <button class="btn-green" onclick="shareWhatsApp()">
       Share WhatsApp
     </button>
 
   </div>
 
-  <!-- RIGHT CARD -->
+  <!-- CARD PREVIEW -->
   <div class="right-panel">
 
     <div id="cardPreview">
-      <p>Fill form & submit</p>
+      <p>Fill form and click Submit</p>
     </div>
 
   </div>
 
 </div>
 
-<!-- DASHBOARD (HIDDEN INITIALLY) -->
-<div id="dashboard" style="display:none;" class="right-panel">
-
-  <h3>MEMBERS DASHBOARD</h3>
-
-  <input id="search" placeholder="Search members">
-
-  <div id="memberList"></div>
-
-</div>
-
-<!-- FOOTER -->
+<!-- ================= FOOTER ================= -->
 <div class="header">
-  N. RAMAN | President / General Secretary | TMNP
+  N. RAMAN | President / General Secretary<br>
+  ECI Reg No: 56/219/2018-2021/PPS-I | 05.03.2021
 </div>
 
 </body>
