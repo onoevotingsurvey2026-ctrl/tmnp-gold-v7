@@ -1,11 +1,3 @@
-import { db, storage } from "./firebase-config.js";
-
-import {
-collection,
-addDoc,
-serverTimestamp
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
-
 import {
 ref,
 uploadBytes,
