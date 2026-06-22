@@ -1,4 +1,5 @@
 console.log("APP JS LOADED");
+
 import { db } from "./firebase-config.js";
 
 import {
@@ -18,7 +19,6 @@ return;
 
 navigator.geolocation.getCurrentPosition((pos) => {
 
-```
 const lat = pos.coords.latitude;
 const lon = pos.coords.longitude;
 
@@ -27,8 +27,9 @@ document.getElementById("location").value =
 
 document.getElementById("locationStatus").innerText =
   "Location Captured ✔";
-```
 
+}, (err) => {
+alert("Location Error: " + err.message);
 });
 
 };
@@ -50,7 +51,6 @@ return;
 
 try {
 
-```
 const memberId =
   "TMNP-" + Date.now();
 
@@ -60,14 +60,14 @@ const photoFile =
   document.getElementById("photo").files[0];
 
 if (photoFile) {
-  photoURL =
-    URL.createObjectURL(photoFile);
+  photoURL = URL.createObjectURL(photoFile);
 }
 
 const member = {
-  memberId,
-  name,
-  phone,
+  memberId: memberId,
+  name: name,
+  phone: phone,
+
   voterid:
     document.getElementById("voterid").value.trim(),
 
@@ -83,7 +83,7 @@ const member = {
   location:
     document.getElementById("location").value,
 
-  photoURL,
+  photoURL: photoURL,
 
   status: "Active",
 
@@ -100,18 +100,15 @@ renderCard(member, docRef.id);
 alert("Member Saved Successfully ✔");
 
 resetForm();
-```
 
 } catch (err) {
 
-```
+console.error(err);
+
 alert(
   "Firebase Error: " +
   err.message
 );
-
-console.error(err);
-```
 
 }
 
@@ -119,10 +116,7 @@ console.error(err);
 
 /* ================= CARD ================= */
 
-window.renderCard = function (
-member,
-id
-) {
+window.renderCard = function (member, id) {
 
 const card = `
 
@@ -134,45 +128,30 @@ const card = `
 
   <div class="card-body">
 
-```
-${
-  member.photoURL
-    ? `
-    <img
-      src="${member.photoURL}"
-      style="
-        width:120px;
-        height:120px;
-        border-radius:50%;
-        border:4px solid gold;
-        object-fit:cover;
-        margin-bottom:10px;
-      "
-    >
-    `
-    : ""
-}
+${member.photoURL ? `
+  <img
+    src="${member.photoURL}"
+    style="
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      border:4px solid gold;
+      object-fit:cover;
+      margin-bottom:10px;
+    "
+  >
+` : ""}
 
 <div><b>ID:</b> ${member.memberId}</div>
-
 <div><b>Name:</b> ${member.name}</div>
-
 <div><b>Phone:</b> ${member.phone}</div>
-
 <div><b>Voter ID:</b> ${member.voterid}</div>
-
 <div><b>Email:</b> ${member.email}</div>
-
 <div><b>District:</b> ${member.district}</div>
-
 <div><b>Address:</b> ${member.address}</div>
+<div><b>Location:</b> ${member.location || "Not Captured"}</div>
 
-<div><b>Location:</b>
-  ${member.location || "Not Captured"}
-</div>
-
-<div id="qr"></div>
-```
+<div id="qr" style="margin-top:15px;"></div>
 
   </div>
 
@@ -180,28 +159,27 @@ ${
 
 `;
 
-document.getElementById(
-"cardPreview"
-).innerHTML = card;
+document.getElementById("cardPreview").innerHTML = card;
 
 setTimeout(() => {
 
-```
 const qr =
   document.getElementById("qr");
 
-qr.innerHTML = "";
+if (qr) {
 
-new QRCode(qr, {
-  text:
-    window.location.href +
-    "?id=" +
-    id,
+  qr.innerHTML = "";
 
-  width: 120,
-  height: 120
-});
-```
+  new QRCode(qr, {
+    text:
+      window.location.href +
+      "?id=" +
+      id,
+    width: 120,
+    height: 120
+  });
+
+}
 
 }, 100);
 
@@ -212,9 +190,12 @@ new QRCode(qr, {
 window.downloadPDF = async function () {
 
 const card =
-document.getElementById(
-"cardPreview"
-);
+document.getElementById("cardPreview");
+
+if (!card) {
+alert("Card not found");
+return;
+}
 
 const canvas =
 await html2canvas(card);
@@ -237,9 +218,7 @@ img,
 0
 );
 
-pdf.save(
-"TMNP-Membership.pdf"
-);
+pdf.save("TMNP-Membership.pdf");
 
 };
 
@@ -257,7 +236,8 @@ window.open(
 "https://wa.me/?text=" +
 encodeURIComponent(
 text + " " + url
-)
+),
+"_blank"
 );
 
 };
