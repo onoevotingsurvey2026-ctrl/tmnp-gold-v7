@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP Membership Dashboard</title>
+<title>TMNP Membership System V10</title>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -16,32 +16,41 @@ background:#eef2f7;
 
 /* HEADER */
 .header{
-background:linear-gradient(90deg,#1e3c72,#2a5298);
+background:linear-gradient(90deg,#0d47a1,#1976d2);
 color:white;
-padding:15px;
 text-align:center;
-font-size:18px;
+padding:15px;
 font-weight:bold;
 }
 
-/* DASHBOARD */
+.logo{
+width:60px;
+height:60px;
+border-radius:50%;
+}
+
+/* FOOTER */
+.footer{
+background:#0d47a1;
+color:white;
+text-align:center;
+padding:10px;
+margin-top:20px;
+}
+
+/* DASHBOARD GRID */
 .container{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-gap:15px;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
 padding:15px;
 }
 
 .card{
 background:white;
-padding:12px;
+padding:10px;
 border-radius:10px;
 box-shadow:0 2px 8px rgba(0,0,0,0.1);
-}
-
-.card h3{
-margin:0 0 10px 0;
-font-size:14px;
 }
 
 /* COLORS */
@@ -50,6 +59,7 @@ font-size:14px;
 .email{border-left:5px solid #2196f3;}
 .voter{border-left:5px solid #9c27b0;}
 .address{border-left:5px solid #ff9800;}
+.photo{border-left:5px solid #e91e63;}
 
 /* INPUT */
 input, textarea{
@@ -67,48 +77,46 @@ border:none;
 border-radius:6px;
 cursor:pointer;
 font-weight:bold;
+margin:5px;
 }
 
-.btn-submit{background:#1976d2;color:white;width:100%;}
-.btn-card{background:#4caf50;color:white;margin-top:5px;width:100%;}
-.btn-download{background:#ff5722;color:white;margin-top:5px;width:100%;}
+.btn1{background:#1976d2;color:white;}
+.btn2{background:#4caf50;color:white;}
+.btn3{background:#ff5722;color:white;}
 
-/* CARD OUTPUT */
+/* CARD */
 #memberCard{
-width:320px;
+width:340px;
 background:linear-gradient(135deg,#ffffff,#e3f2fd);
+margin:20px auto;
 padding:15px;
 border-radius:12px;
-margin:20px auto;
-box-shadow:0 3px 12px rgba(0,0,0,0.2);
 display:none;
+box-shadow:0 3px 12px rgba(0,0,0,0.3);
 }
 
-#memberCard h2{
-text-align:center;
-margin:0;
-color:#1e3c72;
+#memberCard img{
+width:80px;
+height:80px;
+border-radius:10px;
+object-fit:cover;
 }
 
-#memberList{
-padding:15px;
-}
-
-table{
+#memberList table{
 width:100%;
 border-collapse:collapse;
 background:white;
 }
 
 th,td{
-padding:10px;
+padding:8px;
 border:1px solid #ddd;
 text-align:center;
 font-size:13px;
 }
 
 th{
-background:#1e3c72;
+background:#0d47a1;
 color:white;
 }
 </style>
@@ -116,60 +124,72 @@ color:white;
 
 <body>
 
+<!-- HEADER -->
 <div class="header">
-TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM - MEMBERSHIP DASHBOARD
+<img src="assets/logo.png" class="logo"><br>
+TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM<br>
+<span style="font-size:12px;">MEMBERSHIP SYSTEM V10</span><br>
+<button onclick="getLocation()">📍 Get Location</button>
+<p id="loc"></p>
 </div>
 
 <!-- FORM -->
 <div class="container">
 
 <div class="card name">
-<h3>Name</h3>
+Name
 <input id="name">
 </div>
 
 <div class="card phone">
-<h3>Phone</h3>
+Phone
 <input id="phone">
 </div>
 
 <div class="card email">
-<h3>Email</h3>
+Email
 <input id="email">
 </div>
 
 <div class="card voter">
-<h3>Voter ID</h3>
+Voter ID
 <input id="voter">
 </div>
 
 <div class="card address">
-<h3>Address</h3>
+Address
 <textarea id="address"></textarea>
 </div>
 
+<div class="card photo">
+Photo Upload
+<input type="file" id="photo" onchange="loadPhoto(event)">
 </div>
 
-<div style="padding:15px;">
-<button class="btn-submit" onclick="submitMember()">SUBMIT MEMBER</button>
-<button class="btn-card" onclick="generateCard()">GENERATE CARD</button>
-<button class="btn-download" onclick="downloadCard()">DOWNLOAD CARD</button>
+</div>
+
+<!-- BUTTONS -->
+<div style="text-align:center;">
+<button class="btn1" onclick="submitMember()">SUBMIT</button>
+<button class="btn2" onclick="generateCard()">GENERATE CARD</button>
+<button class="btn3" onclick="downloadCard()">DOWNLOAD</button>
 </div>
 
 <!-- CARD -->
 <div id="memberCard">
-<h2>TMNP MEMBER CARD</h2>
-<hr>
+<h3 style="text-align:center;">TMNP MEMBER CARD</h3>
+<img id="cardPhoto">
 <p><b>Name:</b> <span id="c_name"></span></p>
 <p><b>Phone:</b> <span id="c_phone"></span></p>
 <p><b>Email:</b> <span id="c_email"></span></p>
 <p><b>Voter ID:</b> <span id="c_voter"></span></p>
 <p><b>Address:</b> <span id="c_address"></span></p>
+<p><b>Location:</b> <span id="c_location"></span></p>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ADMIN -->
 <div id="memberList">
-<h3 style="padding-left:15px;">ADMIN DASHBOARD</h3>
+<h3 style="padding:10px;">ADMIN DASHBOARD</h3>
 <table>
 <thead>
 <tr>
@@ -183,9 +203,23 @@ TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM - MEMBERSHIP DASHBOARD
 </table>
 </div>
 
+<!-- FOOTER -->
+<div class="footer">
+© TMNP Membership System - All Rights Reserved
+</div>
+
 <script>
 
 let members=[];
+let photoData="";
+
+function loadPhoto(event){
+let reader=new FileReader();
+reader.onload=function(){
+photoData=reader.result;
+}
+reader.readAsDataURL(event.target.files[0]);
+}
 
 function submitMember(){
 
@@ -194,17 +228,18 @@ name:document.getElementById("name").value,
 phone:document.getElementById("phone").value,
 email:document.getElementById("email").value,
 voter:document.getElementById("voter").value,
-address:document.getElementById("address").value
+address:document.getElementById("address").value,
+photo:photoData,
+location:document.getElementById("loc").innerText
 };
 
 members.push(m);
 updateTable();
 
-alert("Member Added Successfully!");
+alert("Member Added!");
 }
 
 function updateTable(){
-
 let row="";
 members.forEach(m=>{
 row+=`
@@ -215,34 +250,40 @@ row+=`
 <td>${m.voter}</td>
 </tr>`;
 });
-
 document.getElementById("tableBody").innerHTML=row;
 }
 
 function generateCard(){
-
-let last=members[members.length-1];
-
-if(!last){alert("No Member Data");return;}
+let m=members[members.length-1];
+if(!m){alert("No Data");return;}
 
 document.getElementById("memberCard").style.display="block";
 
-document.getElementById("c_name").innerText=last.name;
-document.getElementById("c_phone").innerText=last.phone;
-document.getElementById("c_email").innerText=last.email;
-document.getElementById("c_voter").innerText=last.voter;
-document.getElementById("c_address").innerText=last.address;
+document.getElementById("c_name").innerText=m.name;
+document.getElementById("c_phone").innerText=m.phone;
+document.getElementById("c_email").innerText=m.email;
+document.getElementById("c_voter").innerText=m.voter;
+document.getElementById("c_address").innerText=m.address;
+document.getElementById("c_location").innerText=m.location;
+
+document.getElementById("cardPhoto").src=m.photo;
 }
 
 function downloadCard(){
-
 html2canvas(document.getElementById("memberCard")).then(canvas=>{
-let link=document.createElement("a");
-link.download="TMNP_Member_Card.png";
-link.href=canvas.toDataURL();
-link.click();
+let a=document.createElement("a");
+a.download="TMNP_CARD.png";
+a.href=canvas.toDataURL();
+a.click();
 });
+}
 
+/* LOCATION */
+function getLocation(){
+navigator.geolocation.getCurrentPosition(pos=>{
+document.getElementById("loc").innerText=
+pos.coords.latitude+","+pos.coords.longitude;
+});
 }
 
 </script>
