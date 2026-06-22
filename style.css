@@ -327,14 +327,26 @@ button:hover{
 .live-link a:hover{
     background:#082b66;
 }
-
+.tmnp-logo{
+    width:130px;
+    height:130px;
+    object-fit:contain;
+    display:block;
+    margin:0 auto 10px auto;
+}
 /* MOBILE */
 
+/* MOBILE */
 @media(max-width:768px){
 
     .tmnp-header{
         flex-direction:column;
         text-align:center;
+    }
+
+    .tmnp-logo{
+        width:90px;
+        height:90px;
     }
 
     .logo-section img{
