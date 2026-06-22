@@ -46,18 +46,14 @@
 
 <h3>Member Registration</h3>
 
+<label><b>TMNP Logo Upload</b></label>
+<input type="file" id="logoInput" accept="image/*">
+
+<label><b>Party Leader Photo Upload</b></label>
+<input type="file" id="leaderInput" accept="image/*">
+
+<label><b>Member Photo Upload</b></label>
 <input type="file" id="photoInput" accept="image/*">
-
-<input type="text" id="name" placeholder="Name">
-
-<input type="text" id="phone" placeholder="Phone">
-
-<input type="email" id="email" placeholder="Email">
-
-<input type="text" id="voter" placeholder="Voter ID">
-
-<input type="text" id="address" placeholder="Full Address">
-
 <div class="live-location" id="liveLocation">
 Detecting Location...
 </div>
@@ -212,7 +208,35 @@ link.click();
 });
 
 }
+/* LOGO UPLOAD */
+document.getElementById("logoInput").addEventListener("change", function(e){
 
+const reader = new FileReader();
+
+reader.onload = function(){
+
+document.getElementById("headerLogo").src = reader.result;
+
+}
+
+reader.readAsDataURL(e.target.files[0]);
+
+});
+
+/* LEADER PHOTO UPLOAD */
+document.getElementById("leaderInput").addEventListener("change", function(e){
+
+const reader = new FileReader();
+
+reader.onload = function(){
+
+document.getElementById("leaderPhoto").src = reader.result;
+
+}
+
+reader.readAsDataURL(e.target.files[0]);
+
+});
 </script>
 
 </body>
