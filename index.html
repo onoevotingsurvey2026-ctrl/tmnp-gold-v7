@@ -3,208 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP Membership System</title>
+<title>TMNP Membership System V8</title>
+
+<link rel="stylesheet" href="style.css">
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-
-<style>
-
-body{
-font-family:Arial;
-margin:0;
-background:#f2f2f2;
-}
-
-/* HEADER */
-.header{
-background:#0b3d91;
-color:white;
-padding:12px;
-text-align:center;
-}
-
-.header-top{
-display:flex;
-align-items:center;
-justify-content:center;
-gap:12px;
-}
-
-.header img{
-width:60px;
-height:60px;
-object-fit:contain;
-}
-
-/* FIX LOGO FAIL SAFE */
-.logo-fallback{
-width:60px;
-height:60px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:white;
-color:#0b3d91;
-font-weight:bold;
-border-radius:6px;
-}
-
-.header h2{
-margin:0;
-font-size:18px;
-}
-
-.header p{
-margin:4px 0;
-font-size:13px;
-}
-
-.header small a{
-color:#ffd700;
-text-decoration:none;
-}
-
-/* MAIN */
-.container{
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:20px;
-padding:20px;
-}
-
-/* FORM */
-.form-box{
-background:white;
-padding:20px;
-width:340px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,0.1);
-}
-
-.form-box input{
-width:100%;
-padding:8px;
-margin:6px 0;
-}
-
-.btn{
-width:100%;
-padding:10px;
-margin-top:8px;
-background:#0b3d91;
-color:white;
-border:none;
-border-radius:5px;
-cursor:pointer;
-}
-
-/* LOCATION (LIVE GOOGLE) */
-.live-location{
-margin:8px 0;
-padding:8px;
-background:#eef5ff;
-border:1px solid #0b3d91;
-font-size:13px;
-color:#0b3d91;
-border-radius:5px;
-}
-
-/* CARD */
-.card{
-width:340px;
-background:white;
-border-radius:15px;
-padding:15px;
-box-shadow:0 0 10px rgba(0,0,0,0.2);
-text-align:center;
-}
-
-.card-header{
-background:#0b3d91;
-color:white;
-padding:10px;
-border-radius:10px;
-font-weight:bold;
-}
-
-.profile{
-width:90px;
-height:90px;
-border-radius:50%;
-object-fit:cover;
-border:3px solid gold;
-margin-top:10px;
-}
-
-.details{
-text-align:left;
-margin-top:10px;
-font-size:14px;
-line-height:1.6;
-}
-
-/* FOOTER */
-.footer{
-margin-top:20px;
-background:#0b3d91;
-color:white;
-padding:12px;
-font-size:13px;
-text-align:center;
-}
-
-</style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
+<header class="tmnp-header">
 
-<div class="header-top">
+<div class="title-section">
 
-<!-- LOGO FIX -->
-<img src="assets/logo.png"
-onerror="this.style.display='none';document.getElementById('logo_alt').style.display='flex';">
+<h1>TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM</h1>
 
-<div class="logo-fallback" id="logo_alt" style="display:none;">
-TMNP
+<h2>தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்</h2>
+
+<h3>மக்களுக்காக மக்களால் • வாய்மையே வெல்லும்</h3>
+
+<div class="membership-title">
+🔴 PERMANENT MEMBERSHIP IDENTITY
 </div>
 
-<div>
-
-<h2>
-TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM
-<br>
-தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்
-நேர்மை நலன் நம்பிக்கை
-மக்களுக்காக மக்களால் 
- வாய்மையே வெல்லும்
-</h2>
-
-<p>
-PERMANENT MEMBERSHIP IDENTITY
-<br>
+<div class="membership-title-tamil">
 நிரந்தர உறுப்பினர் அடையாளம்
-</p>
+</div>
 
-<small>
+<div class="live-link">
 <a href="https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/" target="_blank">
-LIVE WEBSITE
+🌐 LIVE WEBSITE
 </a>
-</small>
-
 </div>
 
 </div>
 
-</div>
+</header>
 
-<!-- MAIN -->
 <div class="container">
 
-<!-- FORM -->
 <div class="form-box">
 
 <h3>Member Registration</h3>
@@ -212,40 +49,59 @@ LIVE WEBSITE
 <input type="file" id="photoInput" accept="image/*">
 
 <input type="text" id="name" placeholder="Name">
+
 <input type="text" id="phone" placeholder="Phone">
-<input type="text" id="email" placeholder="Email">
+
+<input type="email" id="email" placeholder="Email">
+
 <input type="text" id="voter" placeholder="Voter ID">
+
 <input type="text" id="address" placeholder="Full Address">
 
-<!-- LIVE LOCATION BEFORE SUBMIT -->
 <div class="live-location" id="liveLocation">
-Detecting location...
+Detecting Location...
 </div>
 
-<button class="btn" onclick="updateCard()">Submit / Generate Card</button>
-<button class="btn" onclick="downloadCard()">Download Card</button>
+<button class="btn-blue" onclick="updateCard()">
+Submit / Generate Card
+</button>
+
+<button class="btn-green" onclick="downloadCard()">
+Download Card
+</button>
 
 </div>
 
-<!-- CARD -->
 <div class="card" id="card">
 
 <div class="card-header">
 TMNP MEMBERSHIP CARD
 </div>
 
-<img id="cardPhoto" class="profile" src="assets/default.png">
+<div class="card-body">
+
+<img id="cardPhoto"
+class="profile"
+src="assets/default.png"
+alt="Member Photo">
 
 <div class="details">
 
-<b>ID:</b> <span id="c_id">TMNP-001</span><br>
-<b>Name:</b> <span id="c_name"></span><br>
-<b>Phone:</b> <span id="c_phone"></span><br>
-<b>Email:</b> <span id="c_email"></span><br>
-<b>Voter ID:</b> <span id="c_voter"></span><br>
-<b>Full Address:</b> <span id="c_address"></span><br>
-<b>Live Location:</b> <span id="c_location"></span><br>
-<b>Date:</b> <span id="c_date"></span>
+<p><b>ID:</b> <span id="c_id">TMNP-1001</span></p>
+
+<p><b>Name:</b> <span id="c_name"></span></p>
+
+<p><b>Phone:</b> <span id="c_phone"></span></p>
+
+<p><b>Email:</b> <span id="c_email"></span></p>
+
+<p><b>Voter ID:</b> <span id="c_voter"></span></p>
+
+<p><b>Address:</b> <span id="c_address"></span></p>
+
+<p><b>Location:</b> <span id="c_location"></span></p>
+
+<p><b>Date:</b> <span id="c_date"></span></p>
 
 </div>
 
@@ -253,62 +109,45 @@ TMNP MEMBERSHIP CARD
 
 </div>
 
-<!-- FOOTER -->
-<div class="footer">
+</div>
+
+<footer class="footer">
 
 <strong>N RAMAN</strong><br>
 President / General Secretary<br><br>
 
 Head Quarters:<br>
-No.9, 1st Floor, 2nd Cross Street,<br>
+No.9, First Floor, 2nd Cross Street,<br>
 Gomathipuram, Thiruninravur,<br>
-Thiruvallur District - 602024,<br>
-Tamilnadu, India<br><br>
+Thiruvallur District – 602024,<br>
+Tamil Nadu, India<br><br>
 
 Mobile: +91 8939324309<br>
-Gmail: tmnpmembership@gmail.com<br><br>
+Email: tmnpmembership@gmail.com<br><br>
 
-<strong>"JOIN WITH US"</strong><br>
-"நல்லாட்சி மலர ஓருங்கினைவோம்"
+<strong>JOIN WITH US</strong><br>
+நல்லாட்சி மலர ஓருங்கிணைவோம்
 
-</div>
+</footer>
 
 <script>
 
-let memberCount = 1;
+let memberCount = 1001;
 
-/* PHOTO */
 document.getElementById("photoInput").addEventListener("change", function(e){
+
 const reader = new FileReader();
+
 reader.onload = function(){
+
 document.getElementById("cardPhoto").src = reader.result;
-}
+
+};
+
 reader.readAsDataURL(e.target.files[0]);
+
 });
 
-/* LIVE LOCATION (GOOGLE GEO) */
-function getLocation(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(position){
-let lat = position.coords.latitude;
-let lon = position.coords.longitude;
-
-let link = `https://www.google.com/maps?q=${lat},${lon}`;
-
-document.getElementById("liveLocation").innerHTML =
-"📍 " + link;
-
-document.getElementById("c_location").innerText =
-lat.toFixed(4) + ", " + lon.toFixed(4);
-});
-}else{
-document.getElementById("liveLocation").innerText =
-"Location not supported";
-}
-}
-getLocation();
-
-/* UPDATE CARD */
 function updateCard(){
 
 document.getElementById("c_name").innerText =
@@ -326,23 +165,52 @@ document.getElementById("voter").value;
 document.getElementById("c_address").innerText =
 document.getElementById("address").value;
 
-let now = new Date();
-document.getElementById("c_date").innerText = now.toLocaleString();
+document.getElementById("c_date").innerText =
+new Date().toLocaleString();
 
 document.getElementById("c_id").innerText =
-"TMNP-" + (1000 + memberCount);
+"TMNP-" + memberCount;
 
 memberCount++;
 }
 
-/* DOWNLOAD */
-function downloadCard(){
-html2canvas(document.getElementById("card")).then(canvas=>{
-let link = document.createElement("a");
-link.download = "TMNP_Membership_Card.png";
-link.href = canvas.toDataURL();
-link.click();
+function getLocation(){
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(function(position){
+
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+
+document.getElementById("liveLocation").innerText =
+lat.toFixed(4) + ", " + lon.toFixed(4);
+
+document.getElementById("c_location").innerText =
+lat.toFixed(4) + ", " + lon.toFixed(4);
+
 });
+
+}
+
+}
+
+getLocation();
+
+function downloadCard(){
+
+html2canvas(document.getElementById("card")).then(canvas => {
+
+const link = document.createElement("a");
+
+link.download = "TMNP_Membership_Card.png";
+
+link.href = canvas.toDataURL();
+
+link.click();
+
+});
+
 }
 
 </script>
