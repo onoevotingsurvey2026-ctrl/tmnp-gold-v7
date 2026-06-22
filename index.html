@@ -54,29 +54,31 @@ https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/
 <input id="email" placeholder="Gmail ID">
 <input id="district" placeholder="District">
 
-<textarea id="address" placeholder="Full Address"
+<textarea id="address"
+placeholder="Full Address"
 style="height:130px;"></textarea>
 
-<!-- LOCATION -->
+<input type="file"
+id="photo"
+accept="image/*">
+
 <input type="hidden" id="location">
 
-<button class="btn-blue" onclick="getLocation()">
+<div id="locationStatus"></div>
+
+<button onclick="getLocation()">
 📍 Get Location
 </button>
 
-<div id="locationStatus" style="font-size:12px;color:green;"></div>
-
-<input type="file" id="photo">
-
-<button class="btn-gold" onclick="saveMember()">
+<button onclick="saveMember()">
 Submit Membership
 </button>
 
-<button class="btn-blue" onclick="downloadPDF()">
+<button onclick="downloadPDF()">
 Download PDF
 </button>
 
-<button class="btn-green" onclick="shareWhatsApp()">
+<button onclick="shareWhatsApp()">
 Share WhatsApp
 </button>
 
