@@ -171,10 +171,20 @@ https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/ ★ நல்லாட
 <div class="card">Voter ID<input id="voter"></div>
 <div class="card">Address<textarea id="address"></textarea></div>
 
-<div class="card">Photo<input type="file" onchange="setPhoto(event)"></div>
-<div class="card">Leader<input type="file" onchange="setLeader(event)"></div>
-<div class="card">Logo<input type="file" onchange="setLogo(event)"></div>
+<div class="card">
+Photo
+<input type="file" accept="image/*" onchange="setPhoto(event)">
+</div>
 
+<div class="card">
+Leader
+<input type="file" accept="image/*" onchange="setLeader(event)">
+</div>
+
+<div class="card">
+Logo
+<input type="file" accept="image/*" onchange="setLogo(event)">
+</div>
 <div class="card">
 Location
 <button onclick="getLocation()">Get Location</button>
@@ -196,9 +206,19 @@ Location
 <img id="logoImg">
 <h3 style="text-align:center;">TMNP MEMBER CARD</h3>
 
-<img id="photo">
-<img id="leader">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;">
 
+<img id="photo"
+style="width:90px;height:90px;border-radius:10px;">
+
+<div style="flex:1;padding:0 10px;">
+Member Details
+</div>
+
+<img id="leader"
+style="width:90px;height:90px;border-radius:10px;">
+
+</div>
 <p><b>ID:</b> <span id="mid"></span></p>
 <p><b>Name:</b> <span id="c_name"></span></p>
 <p><b>Phone:</b> <span id="c_phone"></span></p>
@@ -247,42 +267,88 @@ Powered by TMNP Digital System
 <script>
 
 let members=[];
-let photo="",leader="",logo="",loc="";
-let id=1;
+let photoData="";
+let leaderData="";
+let logoData="";
+let loc="";
+let id = localStorage.getItem("tmnp_id") || 1;
 
 function genID(){
-return "TMNP-"+String(id++).padStart(4,"0");
+let newID = "TMNP-" + String(id++).padStart(4,"0");
+localStorage.setItem("tmnp_id", id);
+return newID;
+}
+/* FILES */
+function setPhoto(e){
+
+if(!e.target.files[0]) return;
+
+let r=new FileReader();
+
+r.onload=()=>photoData=r.result;
+
+r.readAsDataURL(e.target.files[0]);
+
 }
 
-/* FILES */
-function setPhoto(e){let r=new FileReader();r.onload=()=>photo=r.result;r.readAsDataURL(e.target.files[0]);}
-function setLeader(e){let r=new FileReader();r.onload=()=>leader=r.result;r.readAsDataURL(e.target.files[0]);}
-function setLogo(e){let r=new FileReader();r.onload=()=>logo=r.result;r.readAsDataURL(e.target.files[0]);}
+function setLeader(e){
+
+if(!e.target.files[0]) return;
+
+let r=new FileReader();
+
+r.onload=()=>leaderData=r.result;
+
+r.readAsDataURL(e.target.files[0]);
+
+}
+
+function setLogo(e){
+
+if(!e.target.files[0]) return;
+
+let r=new FileReader();
+
+r.onload=()=>logoData=r.result;
+
+r.readAsDataURL(e.target.files[0]);
+
+}
 
 /* LOCATION */
 function getLocation(){
 navigator.geolocation.getCurrentPosition(p=>{
 loc=p.coords.latitude+","+p.coords.longitude;
-locText.innerText=loc;
+document.getElementById("locText").innerText = loc;
 });
 }
 
 /* SUBMIT */
 function submitMember(){
-let m={
-id:genID(),
-name:name.value,
-phone:phone.value,
-email:email.value,
-voter:voter.value,
-address:address.value,
-location:loc
-};
-members.push(m);
-update();
-alert("Saved");
+
+let name = document.getElementById("name").value;
+let phone = document.getElementById("phone").value;
+
+// VALIDATION (முதலில் check செய்ய வேண்டும்)
+if(!name || !phone){
+  alert("Name மற்றும் Phone கட்டாயம் தேவை");
+  return;
 }
 
+let m = {
+  id: genID(),
+  name: name,
+  phone: phone,
+  email: document.getElementById("email").value,
+  voter: document.getElementById("voter").value,
+  address: document.getElementById("address").value,
+  location: loc || "Not captured"
+};
+
+members.push(m);
+update();
+alert("Saved Successfully");
+}
 /* TABLE */
 function update(){
 let row="";
@@ -296,40 +362,43 @@ row+=`
 <td>${m.address}</td>
 </tr>`;
 });
-table.innerHTML=row;
+document.getElementById("table").innerHTML = row;
 }
 
 /* CARD */
 function generateCard(){
 let m=members[members.length-1];
-if(!m) return;
+if(!m){
+alert("Please submit member first");
+return;
+}
+document.getElementById("memberCard").style.display = "block";
+document.getElementById("mid").innerText = m.id;
+document.getElementById("c_name").innerText = m.name;
+document.getElementById("c_phone").innerText = m.phone;
+document.getElementById("c_email").innerText = m.email;
+document.getElementById("c_voter").innerText = m.voter;
+document.getElementById("c_address").innerText = m.address;
+document.getElementById("c_loc").innerText = m.location;
+document.getElementById("photo").src = photoData || "";
+document.getElementById("leader").src = leaderData || "";
+document.getElementById("logoImg").src = logoData || "";
+}
+function downloadCard(){
 
-memberCard.style.display="block";
-
-mid.innerText=m.id;
-c_name.innerText=m.name;
-c_phone.innerText=m.phone;
-c_email.innerText=m.email;
-c_voter.innerText=m.voter;
-c_address.innerText=m.address;
-c_loc.innerText=m.location;
-
-photoImg=m;
-photo.src=photo;
-leader.src=leader;
-logoImg.src=logo;
+if(document.getElementById("memberCard").style.display=="none"){
+alert("Generate Card First");
+return;
 }
 
-/* DOWNLOAD */
-function downloadCard(){
-html2canvas(memberCard).then(c=>{
+html2canvas(document.getElementById("memberCard")).then(c=>{
 let a=document.createElement("a");
 a.download="TMNP_CARD.png";
 a.href=c.toDataURL();
 a.click();
 });
-}
 
+}
 </script>
 
 </body>
