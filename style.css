@@ -247,3 +247,116 @@ button:hover{
         width:100%;
     }
 }
+/* =========================
+   TMNP NEW PROFESSIONAL HEADER
+========================= */
+
+.tmnp-header{
+    display:flex;
+    align-items:center;
+    gap:20px;
+    padding:15px;
+    background:linear-gradient(135deg,#006400,#0a8f4a,#006400);
+    border-bottom:5px solid gold;
+    color:white;
+    box-shadow:0 3px 12px rgba(0,0,0,0.2);
+}
+
+.logo-section img{
+    width:130px;
+    height:130px;
+    object-fit:contain;
+}
+
+.title-section{
+    flex:1;
+    text-align:center;
+}
+
+.title-section h1{
+    margin:0;
+    font-size:30px;
+    font-weight:900;
+    color:#FFD700;
+    text-transform:uppercase;
+}
+
+.title-section h2{
+    margin:8px 0;
+    font-size:22px;
+    color:#fff;
+}
+
+.title-section h3{
+    margin:5px 0;
+    font-size:18px;
+    color:#FFD700;
+}
+
+.membership-title{
+    display:inline-block;
+    margin-top:10px;
+    padding:10px 20px;
+    background:#b30000;
+    color:#fff;
+    border-radius:30px;
+    font-weight:bold;
+    font-size:18px;
+}
+
+.membership-title-tamil{
+    margin-top:8px;
+    font-size:18px;
+    font-weight:bold;
+    color:#fff;
+}
+
+.live-link{
+    margin-top:12px;
+}
+
+.live-link a{
+    background:#0b3d91;
+    color:#fff;
+    padding:8px 16px;
+    border-radius:20px;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+.live-link a:hover{
+    background:#082b66;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+    .tmnp-header{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .logo-section img{
+        width:90px;
+        height:90px;
+    }
+
+    .title-section h1{
+        font-size:18px;
+    }
+
+    .title-section h2{
+        font-size:15px;
+    }
+
+    .title-section h3{
+        font-size:14px;
+    }
+
+    .membership-title{
+        font-size:14px;
+        padding:8px 14px;
+    }
+
+}
