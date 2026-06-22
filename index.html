@@ -1,129 +1,186 @@
-<!-- HEADER -->
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TMNP Membership System</title>
+
+<!-- HTML2CANVAS -->
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+<style>
+body{
+font-family:Arial, sans-serif;
+background:#f2f2f2;
+margin:0;
+padding:0;
+}
+
+.header{
+text-align:center;
+background:#0b3d91;
+color:white;
+padding:15px;
+}
+
+.container{
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+padding:20px;
+gap:20px;
+}
+
+/* FORM */
+.form-box{
+background:white;
+padding:20px;
+width:320px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+.form-box input{
+width:100%;
+padding:8px;
+margin:6px 0;
+}
+
+/* CARD */
+.card{
+width:320px;
+background:white;
+border-radius:15px;
+padding:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+text-align:center;
+position:relative;
+}
+
+.card-header{
+background:#0b3d91;
+color:white;
+padding:10px;
+border-radius:10px;
+font-weight:bold;
+}
+
+.profile{
+width:90px;
+height:90px;
+border-radius:50%;
+object-fit:cover;
+border:3px solid gold;
+margin-top:10px;
+}
+
+.details{
+text-align:left;
+margin-top:10px;
+font-size:14px;
+line-height:1.6;
+}
+
+.btn{
+margin-top:10px;
+padding:10px;
+background:#0b3d91;
+color:white;
+border:none;
+width:100%;
+cursor:pointer;
+border-radius:5px;
+}
+</style>
+</head>
+
+<body>
 
 <div class="header">
-
-<img src="assets/logo.png"
-alt="TMNP Logo"
-style="
-width:100px;
-height:100px;
-display:block;
-margin:auto;
-">
-
-<img src="assets/leader.png"
-alt="N Raman"
-style="
-width:100px;
-height:100px;
-border-radius:50%;
-display:block;
-margin:auto;
-margin-top:10px;
-border:3px solid gold;
-object-fit:cover;
-">
-
-<h2>TMNP GOLD MEMBERSHIP SYSTEM</h2>
-
-<div>Tamil Nadu Makkal Nalvazhvu Periyakkam</div>
-
-<div>தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்</div>
-
-<div style="margin-top:10px;font-weight:bold;">
-நேர்மை – நலம் – நம்பிக்கை | மக்களுக்காக – மக்களால்
+<h2>TMNP Membership System</h2>
 </div>
 
-<div style="color:green;margin-top:8px;">
-🟢 LIVE WEBSITE
-</div>
-
-<div style="color:blue;">
-https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/
-</div>
-
-</div>
-<!-- END HEADER -->
-
-<!-- DASHBOARD -->
 <div class="container">
 
-<!-- LEFT FORM -->
-<div class="left-panel">
+<!-- FORM -->
+<div class="form-box">
+<h3>Member Registration</h3>
 
-<h3>Registration Form</h3>
+<input type="file" id="photoInput" accept="image/*">
 
-<input id="name" placeholder="Full Name">
-<input id="phone" placeholder="Phone Number">
-<input id="voterid" placeholder="Voter ID">
-<input id="email" placeholder="Gmail ID">
-<input id="district" placeholder="District">
+<input type="text" id="name" placeholder="Name">
+<input type="text" id="phone" placeholder="Phone">
+<input type="text" id="voter" placeholder="Voter ID">
+<input type="text" id="email" placeholder="Email">
+<input type="text" id="district" placeholder="District">
 
-<textarea id="address"
-placeholder="Full Address"
-style="height:130px;"></textarea>
-
-<input type="file"
-id="photo"
-accept="image/*">
-
-<input type="hidden" id="location">
-
-<div id="locationStatus"></div>
-
-<button onclick="getLocation()">
-📍 Get Location
-</button>
-
-<button onclick="saveMember()">
-Submit Membership
-</button>
-
-<button onclick="downloadPDF()">
-Download PDF
-</button>
-
-<button onclick="shareWhatsApp()">
-Share WhatsApp
-</button>
-
+<button class="btn" onclick="updateCard()">Generate Card</button>
+<button class="btn" onclick="downloadCard()">Download Card</button>
 </div>
 
-<!-- RIGHT CARD -->
-<div class="right-panel">
+<!-- CARD -->
+<div class="card" id="card">
 
-<div id="cardPreview">
-<p>Fill form and click Submit</p>
+<div class="card-header">
+TMNP MEMBERSHIP CARD
+</div>
+
+<img id="cardPhoto" class="profile" src="assets/default.png">
+
+<div class="details">
+<b>ID:</b> <span id="c_id">TMNP-001</span><br>
+<b>Name:</b> <span id="c_name"></span><br>
+<b>Phone:</b> <span id="c_phone"></span><br>
+<b>Voter ID:</b> <span id="c_voter"></span><br>
+<b>Email:</b> <span id="c_email"></span><br>
+<b>District:</b> <span id="c_district"></span><br>
+<b>Date:</b> <span id="c_date"></span>
 </div>
 
 </div>
 
 </div>
 
-<!-- FOOTER -->
-<div class="header">
+<script>
 
-<div style="font-weight:bold;">
-N. RAMAN | President / General Secretary
-</div>
+let memberCount = 1;
 
-<hr>
+// PHOTO PREVIEW
+document.getElementById("photoInput").addEventListener("change", function(e){
+const reader = new FileReader();
+reader.onload = function(){
+document.getElementById("cardPhoto").src = reader.result;
+}
+reader.readAsDataURL(e.target.files[0]);
+});
 
-<div>
-📧 tmnpmembership@gmail.com | 📱 +91 8939324309
-</div>
+// UPDATE CARD
+function updateCard(){
 
-<div>
-🏢 No.9, 1st Floor, 2nd Cross Street,<br>
-Gomathipuram, Thiruninravur,<br>
-Thiruvallur District, Tamil Nadu, India
-</div>
+document.getElementById("c_name").innerText = document.getElementById("name").value;
+document.getElementById("c_phone").innerText = document.getElementById("phone").value;
+document.getElementById("c_voter").innerText = document.getElementById("voter").value;
+document.getElementById("c_email").innerText = document.getElementById("email").value;
+document.getElementById("c_district").innerText = document.getElementById("district").value;
 
-<div style="color:green;font-weight:bold;">
-ஒன்றிணைவோம்! உரிமை காப்போம்! நல்லாட்சி மலரட்டும்!
-</div>
+let now = new Date();
+document.getElementById("c_date").innerText = now.toLocaleString();
 
-</div>
+document.getElementById("c_id").innerText = "TMNP-" + (1000 + memberCount);
+memberCount++;
+}
+
+// DOWNLOAD CARD
+function downloadCard(){
+html2canvas(document.getElementById("card")).then(canvas=>{
+let link = document.createElement("a");
+link.download = "TMNP_Membership_Card.png";
+link.href = canvas.toDataURL();
+link.click();
+});
+}
+
+</script>
 
 </body>
 </html>
