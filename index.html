@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP FINAL SYSTEM</title>
+<title>TMNP Membership System</title>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -19,24 +19,35 @@ background:#eef2f7;
 background:linear-gradient(90deg,#0d47a1,#1976d2);
 color:white;
 text-align:center;
-padding:18px;
+padding:20px;
 }
 
 .header .title{
-font-size:34px;
+font-size:36px;
 font-weight:bold;
 line-height:1.3;
 }
 
 .header .sub{
 font-size:14px;
-margin-top:6px;
+margin-top:8px;
 }
 
 .header .principles{
-font-size:15px;
+font-size:16px;
 font-weight:bold;
-margin-top:8px;
+margin-top:10px;
+}
+
+/* RUNNING */
+.marquee{
+background:#fff;
+color:#0d47a1;
+padding:8px;
+font-weight:bold;
+white-space:nowrap;
+overflow:hidden;
+border-bottom:2px solid #0d47a1;
 }
 
 /* FORM */
@@ -87,11 +98,29 @@ box-shadow:0 3px 12px rgba(0,0,0,0.3);
 }
 
 #memberCard img{
-width:80px;
-height:80px;
-object-fit:cover;
+width:70px;
+height:70px;
 border-radius:8px;
-border:2px solid #1976d2;
+object-fit:cover;
+}
+
+/* TABLE */
+table{
+width:100%;
+border-collapse:collapse;
+background:white;
+}
+
+th,td{
+border:1px solid #ddd;
+padding:8px;
+text-align:center;
+font-size:13px;
+}
+
+th{
+background:#0d47a1;
+color:white;
 }
 
 /* FOOTER */
@@ -116,13 +145,21 @@ TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM<br>
 </div>
 
 <div class="sub">
-Election Commission Registered Party: 56/219/2018-2021/PPI-I | 05th March 2021
+இந்திய தேர்தல் ஆணையத்தில் பதிவு பெற்ற அரசியல் கட்சி பதிவு எண்: 56/219/2018-2021/PPI-I<br>
+நாள்: 05th March 2021
 </div>
 
 <div class="principles">
 நேர்மை • நலன் • நம்பிக்கை • மக்களுக்காக • மக்களால் • வாய்மையே வெல்லும்
 </div>
 
+</div>
+
+<!-- RUNNING -->
+<div class="marquee">
+<marquee>
+https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/ ★ நல்லாட்சி மலர இன்றே உறுப்பினராகுங்கள் ★ JOIN WITH US ★
+</marquee>
 </div>
 
 <!-- FORM -->
@@ -134,15 +171,9 @@ Election Commission Registered Party: 56/219/2018-2021/PPI-I | 05th March 2021
 <div class="card">Voter ID<input id="voter"></div>
 <div class="card">Address<textarea id="address"></textarea></div>
 
-<div class="card">
-Member Photo (Passport Size)
-<input type="file" id="photoInput" accept="image/*" onchange="setPhoto(event)">
-</div>
-
-<div class="card">
-Leader Photo (Passport Size)
-<input type="file" id="leaderInput" accept="image/*" onchange="setLeader(event)">
-</div>
+<div class="card">Photo<input type="file" onchange="setPhoto(event)"></div>
+<div class="card">Leader<input type="file" onchange="setLeader(event)"></div>
+<div class="card">Logo<input type="file" onchange="setLogo(event)"></div>
 
 <div class="card">
 Location
@@ -157,12 +188,12 @@ Location
 <button class="b1" onclick="submitMember()">SUBMIT</button>
 <button class="b2" onclick="generateCard()">GENERATE CARD</button>
 <button class="b3" onclick="downloadCard()">DOWNLOAD</button>
-<button class="b1" onclick="enableNotification()">🔔 NOTIFY</button>
 </div>
 
 <!-- CARD -->
 <div id="memberCard">
 
+<img id="logoImg">
 <h3 style="text-align:center;">TMNP MEMBER CARD</h3>
 
 <img id="photo">
@@ -178,6 +209,21 @@ Location
 
 </div>
 
+<!-- ADMIN -->
+<h3 style="padding:10px;">ADMIN DASHBOARD</h3>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Name</th>
+<th>Phone</th>
+<th>Email</th>
+<th>Address</th>
+</tr>
+</thead>
+<tbody id="table"></tbody>
+</table>
+
 <!-- FOOTER -->
 <div class="footer">
 
@@ -185,51 +231,33 @@ FOUNDER: N. RAMAN - PRESIDENT / GENERAL SECRETARY<br><br>
 
 HEAD QUARTERS:<br>
 No.9, 1st Floor, 2nd Cross Street,<br>
-Gomathipuram, Thiruninravur, 602024,<br>
+Gomathipuram, Thiruninravur,<br>
+Pincode - 602024,<br>
 Thiruvallur District, Tamilnadu, India<br><br>
 
-MOBILE: +91 8939324309<br>
-EMAIL: tmnpmembership@gmail.com<br><br>
+WhatsApp: +91 89939324309<br>
+Gmail: tmnpmembership@gmail.com<br><br>
 
-நல்லாட்சி மலர இன்றே உறுப்பினராகுங்கள் - JOIN WITH US
+நல்லாட்சி மலர இன்றே உறுப்பினராகுங்கள் - JOIN WITH US<br><br>
+
+Powered by TMNP Digital System
 
 </div>
 
 <script>
 
 let members=[];
-let photoData="",leaderData="",loc="";
-
-/* ID */
+let photo="",leader="",logo="",loc="";
 let id=1;
+
 function genID(){
 return "TMNP-"+String(id++).padStart(4,"0");
 }
 
-/* FIXED PHOTO (Passport validation basic) */
-function setPhoto(e){
-let file=e.target.files[0];
-if(!file) return;
-
-if(!file.type.startsWith("image/")){
-alert("Only Image Allowed");
-return;
-}
-
-let r=new FileReader();
-r.onload=()=>photoData=r.result;
-r.readAsDataURL(file);
-}
-
-/* LEADER PHOTO */
-function setLeader(e){
-let file=e.target.files[0];
-if(!file) return;
-
-let r=new FileReader();
-r.onload=()=>leaderData=r.result;
-r.readAsDataURL(file);
-}
+/* FILES */
+function setPhoto(e){let r=new FileReader();r.onload=()=>photo=r.result;r.readAsDataURL(e.target.files[0]);}
+function setLeader(e){let r=new FileReader();r.onload=()=>leader=r.result;r.readAsDataURL(e.target.files[0]);}
+function setLogo(e){let r=new FileReader();r.onload=()=>logo=r.result;r.readAsDataURL(e.target.files[0]);}
 
 /* LOCATION */
 function getLocation(){
@@ -239,26 +267,40 @@ locText.innerText=loc;
 });
 }
 
-/* SUBMIT FIXED (NO UNDEFINED ISSUE) */
+/* SUBMIT */
 function submitMember(){
-
 let m={
 id:genID(),
-name:document.getElementById("name").value,
-phone:document.getElementById("phone").value,
-email:document.getElementById("email").value,
-voter:document.getElementById("voter").value,
-address:document.getElementById("address").value,
+name:name.value,
+phone:phone.value,
+email:email.value,
+voter:voter.value,
+address:address.value,
 location:loc
 };
-
 members.push(m);
-alert("Member Saved Successfully");
+update();
+alert("Saved");
+}
+
+/* TABLE */
+function update(){
+let row="";
+members.forEach(m=>{
+row+=`
+<tr>
+<td>${m.id}</td>
+<td>${m.name}</td>
+<td>${m.phone}</td>
+<td>${m.email}</td>
+<td>${m.address}</td>
+</tr>`;
+});
+table.innerHTML=row;
 }
 
 /* CARD */
 function generateCard(){
-
 let m=members[members.length-1];
 if(!m) return;
 
@@ -272,31 +314,20 @@ c_voter.innerText=m.voter;
 c_address.innerText=m.address;
 c_loc.innerText=m.location;
 
-photo.src=photoData;
-leader.src=leaderData;
-
-/* NOTIFICATION + SOUND */
-if(Notification.permission==="granted"){
-new Notification("TMNP MEMBER",{body:m.name});
-
-let audio=new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
-audio.play();
-}
+photoImg=m;
+photo.src=photo;
+leader.src=leader;
+logoImg.src=logo;
 }
 
 /* DOWNLOAD */
 function downloadCard(){
-html2canvas(memberCard).then(canvas=>{
+html2canvas(memberCard).then(c=>{
 let a=document.createElement("a");
 a.download="TMNP_CARD.png";
-a.href=canvas.toDataURL();
+a.href=c.toDataURL();
 a.click();
 });
-}
-
-/* NOTIFICATION ENABLE */
-function enableNotification(){
-Notification.requestPermission();
 }
 
 </script>
