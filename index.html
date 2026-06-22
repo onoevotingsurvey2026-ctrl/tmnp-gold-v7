@@ -36,6 +36,19 @@ height:60px;
 object-fit:contain;
 }
 
+/* FIX LOGO FAIL SAFE */
+.logo-fallback{
+width:60px;
+height:60px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:white;
+color:#0b3d91;
+font-weight:bold;
+border-radius:6px;
+}
+
 .header h2{
 margin:0;
 font-size:18px;
@@ -46,25 +59,9 @@ margin:4px 0;
 font-size:13px;
 }
 
-.header small{
-display:block;
-margin-top:5px;
-font-size:12px;
-}
-
-.header a{
+.header small a{
 color:#ffd700;
 text-decoration:none;
-}
-
-/* LOCATION BAR */
-.location-bar{
-background:#ffffff;
-padding:10px;
-text-align:center;
-font-weight:bold;
-color:#0b3d91;
-border-bottom:2px solid #0b3d91;
 }
 
 /* MAIN */
@@ -100,6 +97,17 @@ color:white;
 border:none;
 border-radius:5px;
 cursor:pointer;
+}
+
+/* LOCATION (LIVE GOOGLE) */
+.live-location{
+margin:8px 0;
+padding:8px;
+background:#eef5ff;
+border:1px solid #0b3d91;
+font-size:13px;
+color:#0b3d91;
+border-radius:5px;
 }
 
 /* CARD */
@@ -146,12 +154,6 @@ font-size:13px;
 text-align:center;
 }
 
-.footer small{
-display:block;
-margin-top:6px;
-opacity:0.95;
-}
-
 </style>
 </head>
 
@@ -162,7 +164,13 @@ opacity:0.95;
 
 <div class="header-top">
 
-<img src="assets/logo.png">
+<!-- LOGO FIX -->
+<img src="assets/logo.png"
+onerror="this.style.display='none';document.getElementById('logo_alt').style.display='flex';">
+
+<div class="logo-fallback" id="logo_alt" style="display:none;">
+TMNP
+</div>
 
 <div>
 
@@ -170,6 +178,9 @@ opacity:0.95;
 TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM
 <br>
 தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்
+நேர்மை நலன் நம்பிக்கை
+மக்களுக்காக மக்களால் 
+ வாய்மையே வெல்லும்
 </h2>
 
 <p>
@@ -190,11 +201,6 @@ LIVE WEBSITE
 
 </div>
 
-<!-- LOCATION BAR -->
-<div class="location-bar">
-📍 Location : <span id="live_location">Chennai, Tamil Nadu</span>
-</div>
-
 <!-- MAIN -->
 <div class="container">
 
@@ -209,10 +215,14 @@ LIVE WEBSITE
 <input type="text" id="phone" placeholder="Phone">
 <input type="text" id="email" placeholder="Email">
 <input type="text" id="voter" placeholder="Voter ID">
-
 <input type="text" id="address" placeholder="Full Address">
 
-<button class="btn" onclick="updateCard()">Generate Card</button>
+<!-- LIVE LOCATION BEFORE SUBMIT -->
+<div class="live-location" id="liveLocation">
+Detecting location...
+</div>
+
+<button class="btn" onclick="updateCard()">Submit / Generate Card</button>
 <button class="btn" onclick="downloadCard()">Download Card</button>
 
 </div>
@@ -234,6 +244,7 @@ TMNP MEMBERSHIP CARD
 <b>Email:</b> <span id="c_email"></span><br>
 <b>Voter ID:</b> <span id="c_voter"></span><br>
 <b>Full Address:</b> <span id="c_address"></span><br>
+<b>Live Location:</b> <span id="c_location"></span><br>
 <b>Date:</b> <span id="c_date"></span>
 
 </div>
@@ -260,15 +271,13 @@ Gmail: tmnpmembership@gmail.com<br><br>
 <strong>"JOIN WITH US"</strong><br>
 "நல்லாட்சி மலர ஓருங்கினைவோம்"
 
-<small>© TMNP Membership System</small>
-
 </div>
 
 <script>
 
 let memberCount = 1;
 
-// PHOTO
+/* PHOTO */
 document.getElementById("photoInput").addEventListener("change", function(e){
 const reader = new FileReader();
 reader.onload = function(){
@@ -277,7 +286,29 @@ document.getElementById("cardPhoto").src = reader.result;
 reader.readAsDataURL(e.target.files[0]);
 });
 
-// UPDATE CARD
+/* LIVE LOCATION (GOOGLE GEO) */
+function getLocation(){
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+let lat = position.coords.latitude;
+let lon = position.coords.longitude;
+
+let link = `https://www.google.com/maps?q=${lat},${lon}`;
+
+document.getElementById("liveLocation").innerHTML =
+"📍 " + link;
+
+document.getElementById("c_location").innerText =
+lat.toFixed(4) + ", " + lon.toFixed(4);
+});
+}else{
+document.getElementById("liveLocation").innerText =
+"Location not supported";
+}
+}
+getLocation();
+
+/* UPDATE CARD */
 function updateCard(){
 
 document.getElementById("c_name").innerText =
@@ -304,7 +335,7 @@ document.getElementById("c_id").innerText =
 memberCount++;
 }
 
-// DOWNLOAD CARD
+/* DOWNLOAD */
 function downloadCard(){
 html2canvas(document.getElementById("card")).then(canvas=>{
 let link = document.createElement("a");
