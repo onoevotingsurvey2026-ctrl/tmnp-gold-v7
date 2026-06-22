@@ -46,10 +46,14 @@ margin:4px 0;
 font-size:13px;
 }
 
-.header a{
-color:#ffd700;
-text-decoration:none;
-font-size:12px;
+/* LOCATION OUTSIDE FORM */
+.location-bar{
+background:#ffffff;
+padding:10px;
+text-align:center;
+font-weight:bold;
+color:#0b3d91;
+border-bottom:2px solid #0b3d91;
 }
 
 /* MAIN */
@@ -131,12 +135,6 @@ font-size:13px;
 text-align:center;
 }
 
-.footer small{
-display:block;
-margin-top:6px;
-opacity:0.95;
-}
-
 </style>
 </head>
 
@@ -150,12 +148,14 @@ opacity:0.95;
 <div>
 <h2>TMNP PARTY | தமிழ்நாடு மக்கள் நல வளர்ச்சி பேரியக்கம்</h2>
 <p>நேர்மை நலன் நம்பிக்கை மக்களுக்காக மக்களால்</p>
-<a href="https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/" target="_blank">
-LIVE WEBSITE
-</a>
 </div>
 </div>
 
+</div>
+
+<!-- LOCATION OUTSIDE FORM -->
+<div class="location-bar">
+📍 Location : <span id="live_location">Chennai, Tamil Nadu</span>
 </div>
 
 <!-- MAIN -->
@@ -172,6 +172,9 @@ LIVE WEBSITE
 <input type="text" id="phone" placeholder="Phone">
 <input type="text" id="email" placeholder="Email">
 <input type="text" id="voter" placeholder="Voter ID">
+
+<!-- FULL ADDRESS ADDED -->
+<input type="text" id="address" placeholder="Full Address">
 
 <button class="btn" onclick="updateCard()">Generate Card</button>
 <button class="btn" onclick="downloadCard()">Download Card</button>
@@ -194,6 +197,7 @@ TMNP MEMBERSHIP CARD
 <b>Phone:</b> <span id="c_phone"></span><br>
 <b>Email:</b> <span id="c_email"></span><br>
 <b>Voter ID:</b> <span id="c_voter"></span><br>
+<b>Full Address:</b> <span id="c_address"></span><br>
 <b>Date:</b> <span id="c_date"></span>
 
 </div>
@@ -211,16 +215,14 @@ President / General Secretary<br><br>
 Head Quarters:<br>
 No.8, 1st Floor, 2nd Cross Street,<br>
 Gomathipuram, Thiruninravur,<br>
-Pincode: 602024, Thiruvallur District,<br>
-Tamilnadu State, India<br><br>
+Thiruvallur District - 602024,<br>
+Tamilnadu, India<br><br>
 
 Mobile: +91 8939324309<br>
 Gmail: tmnpmembership@gmail.com<br><br>
 
 <strong>"JOIN WITH US"</strong><br>
 "நல்லாட்சி மலர ஓருங்கினைவோம்"
-
-<small>© TMNP Membership System</small>
 
 </div>
 
@@ -251,6 +253,9 @@ document.getElementById("email").value;
 
 document.getElementById("c_voter").innerText =
 document.getElementById("voter").value;
+
+document.getElementById("c_address").innerText =
+document.getElementById("address").value;
 
 let now = new Date();
 document.getElementById("c_date").innerText = now.toLocaleString();
