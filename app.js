@@ -1,3 +1,4 @@
+console.log("APP JS LOADED");
 import { db } from "./firebase-config.js";
 
 import {
