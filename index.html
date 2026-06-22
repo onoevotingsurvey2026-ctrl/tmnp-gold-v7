@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TMNP FULL SYSTEM V10-V16</title>
+<title>TMNP Membership System</title>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
@@ -19,13 +19,38 @@ background:#eef2f7;
 background:linear-gradient(90deg,#0d47a1,#1976d2);
 color:white;
 text-align:center;
-padding:15px;
-font-weight:bold;
-font-size:16px;
-line-height:1.6;
+padding:20px;
 }
 
-/* FORM GRID */
+.header .title{
+font-size:36px;
+font-weight:bold;
+line-height:1.3;
+}
+
+.header .sub{
+font-size:14px;
+margin-top:8px;
+}
+
+.header .principles{
+font-size:16px;
+font-weight:bold;
+margin-top:10px;
+}
+
+/* RUNNING */
+.marquee{
+background:#fff;
+color:#0d47a1;
+padding:8px;
+font-weight:bold;
+white-space:nowrap;
+overflow:hidden;
+border-bottom:2px solid #0d47a1;
+}
+
+/* FORM */
 .container{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
@@ -63,7 +88,7 @@ font-weight:bold;
 
 /* CARD */
 #memberCard{
-width:350px;
+width:360px;
 margin:20px auto;
 padding:15px;
 background:linear-gradient(135deg,#fff,#e3f2fd);
@@ -75,10 +100,11 @@ box-shadow:0 3px 12px rgba(0,0,0,0.3);
 #memberCard img{
 width:70px;
 height:70px;
-object-fit:cover;
 border-radius:8px;
+object-fit:cover;
 }
 
+/* TABLE */
 table{
 width:100%;
 border-collapse:collapse;
@@ -88,13 +114,22 @@ background:white;
 th,td{
 border:1px solid #ddd;
 padding:8px;
-font-size:13px;
 text-align:center;
+font-size:13px;
 }
 
 th{
 background:#0d47a1;
 color:white;
+}
+
+/* FOOTER */
+.footer{
+background:#0d47a1;
+color:white;
+text-align:center;
+padding:20px;
+font-size:14px;
 }
 </style>
 </head>
@@ -103,55 +138,45 @@ color:white;
 
 <!-- HEADER -->
 <div class="header">
-தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்<br>
-PRINCIPLES: நெர்மை • நலம் • நம்பிக்கை • மக்களுக்காக • மக்களால் • வாய்மையே வெல்லும்
+
+<div class="title">
+TAMILNADU MAKKAL NALVAZHVU PERIYAKKAM<br>
+தமிழ்நாடு மக்கள் நல்வாழ்வு பேரியக்கம்
+</div>
+
+<div class="sub">
+இந்திய தேர்தல் ஆணையத்தில் பதிவு பெற்ற அரசியல் கட்சி பதிவு எண்: 56/219/2018-2021/PPI-I<br>
+நாள்: 05th March 2021
+</div>
+
+<div class="principles">
+நேர்மை • நலன் • நம்பிக்கை • மக்களுக்காக • மக்களால் • வாய்மையே வெல்லும்
+</div>
+
+</div>
+
+<!-- RUNNING -->
+<div class="marquee">
+<marquee>
+https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/ ★ நல்லாட்சி மலர இன்றே உறுப்பினராகுங்கள் ★ JOIN WITH US ★
+</marquee>
 </div>
 
 <!-- FORM -->
 <div class="container">
 
-<div class="card">
-Name
-<input id="name">
-</div>
+<div class="card">Name<input id="name"></div>
+<div class="card">Phone<input id="phone"></div>
+<div class="card">Email<input id="email"></div>
+<div class="card">Voter ID<input id="voter"></div>
+<div class="card">Address<textarea id="address"></textarea></div>
+
+<div class="card">Photo<input type="file" onchange="setPhoto(event)"></div>
+<div class="card">Leader<input type="file" onchange="setLeader(event)"></div>
+<div class="card">Logo<input type="file" onchange="setLogo(event)"></div>
 
 <div class="card">
-Phone
-<input id="phone">
-</div>
-
-<div class="card">
-Email
-<input id="email">
-</div>
-
-<div class="card">
-Voter ID
-<input id="voter">
-</div>
-
-<div class="card">
-Address
-<textarea id="address"></textarea>
-</div>
-
-<div class="card">
-Photo
-<input type="file" onchange="setPhoto(event)">
-</div>
-
-<div class="card">
-Leader Photo
-<input type="file" onchange="setLeader(event)">
-</div>
-
-<div class="card">
-Logo
-<input type="file" onchange="setLogo(event)">
-</div>
-
-<div class="card">
-📍 Location
+Location
 <button onclick="getLocation()">Get Location</button>
 <p id="locText"></p>
 </div>
@@ -163,14 +188,13 @@ Logo
 <button class="b1" onclick="submitMember()">SUBMIT</button>
 <button class="b2" onclick="generateCard()">GENERATE CARD</button>
 <button class="b3" onclick="downloadCard()">DOWNLOAD</button>
-<button class="b1" onclick="enableNotifications()">🔔 Notify</button>
 </div>
 
 <!-- CARD -->
 <div id="memberCard">
 
 <img id="logoImg">
-<h3>TMNP MEMBER CARD</h3>
+<h3 style="text-align:center;">TMNP MEMBER CARD</h3>
 
 <img id="photo">
 <img id="leader">
@@ -200,28 +224,46 @@ Logo
 <tbody id="table"></tbody>
 </table>
 
+<!-- FOOTER -->
+<div class="footer">
+
+FOUNDER: N. RAMAN - PRESIDENT / GENERAL SECRETARY<br><br>
+
+HEAD QUARTERS:<br>
+No.9, 1st Floor, 2nd Cross Street,<br>
+Gomathipuram, Thiruninravur,<br>
+Pincode - 602024,<br>
+Thiruvallur District, Tamilnadu, India<br><br>
+
+WhatsApp: +91 89939324309<br>
+Gmail: tmnpmembership@gmail.com<br><br>
+
+நல்லாட்சி மலர இன்றே உறுப்பினராகுங்கள் - JOIN WITH US<br><br>
+
+Powered by TMNP Digital System
+
+</div>
+
 <script>
 
 let members=[];
-let photoData="",leaderData="",logoData="";
-let loc="";
-
-/* ID */
+let photo="",leader="",logo="",loc="";
 let id=1;
+
 function genID(){
 return "TMNP-"+String(id++).padStart(4,"0");
 }
 
 /* FILES */
-function setPhoto(e){let r=new FileReader();r.onload=()=>photoData=r.result;r.readAsDataURL(e.target.files[0]);}
-function setLeader(e){let r=new FileReader();r.onload=()=>leaderData=r.result;r.readAsDataURL(e.target.files[0]);}
-function setLogo(e){let r=new FileReader();r.onload=()=>logoData=r.result;r.readAsDataURL(e.target.files[0]);}
+function setPhoto(e){let r=new FileReader();r.onload=()=>photo=r.result;r.readAsDataURL(e.target.files[0]);}
+function setLeader(e){let r=new FileReader();r.onload=()=>leader=r.result;r.readAsDataURL(e.target.files[0]);}
+function setLogo(e){let r=new FileReader();r.onload=()=>logo=r.result;r.readAsDataURL(e.target.files[0]);}
 
 /* LOCATION */
 function getLocation(){
 navigator.geolocation.getCurrentPosition(p=>{
 loc=p.coords.latitude+","+p.coords.longitude;
-document.getElementById("locText").innerText=loc;
+locText.innerText=loc;
 });
 }
 
@@ -236,7 +278,6 @@ voter:voter.value,
 address:address.value,
 location:loc
 };
-
 members.push(m);
 update();
 alert("Saved");
@@ -273,14 +314,10 @@ c_voter.innerText=m.voter;
 c_address.innerText=m.address;
 c_loc.innerText=m.location;
 
-photo.src=photoData;
-leader.src=leaderData;
-logoImg.src=logoData;
-
-/* notification */
-if(Notification.permission==="granted"){
-new Notification("TMNP MEMBER",{body:m.name});
-}
+photoImg=m;
+photo.src=photo;
+leader.src=leader;
+logoImg.src=logo;
 }
 
 /* DOWNLOAD */
@@ -291,11 +328,6 @@ a.download="TMNP_CARD.png";
 a.href=c.toDataURL();
 a.click();
 });
-}
-
-/* NOTIFICATION */
-function enableNotifications(){
-Notification.requestPermission();
 }
 
 </script>
