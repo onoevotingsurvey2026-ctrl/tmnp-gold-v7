@@ -166,7 +166,10 @@ https://onoevotingsurvey2026-ctrl.github.io/tmnp-gold-v7/ ★ நல்லாட
 <div class="container">
 
 <div class="card">Name<input id="name"></div>
-<div class="card">Phone<input id="phone"></div>
+<div class="card">
+Phone
+<input id="phone" type="tel" maxlength="10" placeholder="10 Digit Mobile Number">
+</div>
 <div class="card">Email<input id="email"></div>
 <div class="card">Voter ID<input id="voter"></div>
 <div class="card">Address<textarea id="address"></textarea></div>
@@ -317,21 +320,42 @@ r.readAsDataURL(e.target.files[0]);
 
 /* LOCATION */
 function getLocation(){
-navigator.geolocation.getCurrentPosition(p=>{
-loc=p.coords.latitude+","+p.coords.longitude;
+
+navigator.geolocation.getCurrentPosition(
+
+p=>{
+loc = p.coords.latitude + "," + p.coords.longitude;
 document.getElementById("locText").innerText = loc;
-});
+},
+
+()=>{
+alert("Location Access Denied");
+document.getElementById("locText").innerText =
+"Location Permission Denied";
 }
 
+);
+
+}
 /* SUBMIT */
 function submitMember(){
 
-let name = document.getElementById("name").value;
-let phone = document.getElementById("phone").value;
+let name = document.getElementById("name").value.trim();
+let phone = document.getElementById("phone").value.trim();
 
-// VALIDATION (முதலில் check செய்ய வேண்டும்)
+// VALIDATION
 if(!name || !phone){
   alert("Name மற்றும் Phone கட்டாயம் தேவை");
+  return;
+}
+
+if(!/^[0-9]+$/.test(phone)){
+  alert("மொபைல் எண்ணில் எண்கள் மட்டும் உள்ளிடவும்");
+  return;
+}
+
+if(phone.length !== 10){
+  alert("சரியான 10 இலக்க மொபைல் எண் உள்ளிடவும்");
   return;
 }
 
@@ -347,7 +371,27 @@ let m = {
 
 members.push(m);
 update();
+
+/* WHATSAPP NOTIFICATION */
+
+let msg =
+`TMNP NEW MEMBERSHIP
+
+ID: ${m.id}
+Name: ${m.name}
+Phone: ${m.phone}
+Email: ${m.email}
+Voter ID: ${m.voter}
+Address: ${m.address}
+Location: ${m.location}`;
+
+window.open(
+`https://wa.me/918939324309?text=${encodeURIComponent(msg)}`,
+'_blank'
+);
+
 alert("Saved Successfully");
+
 }
 /* TABLE */
 function update(){
